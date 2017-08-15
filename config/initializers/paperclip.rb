@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 Paperclip.options[:read_timeout] = 60
+Paperclip.options[:content_type_mappings] = {
+  dae: 'application/xml'
+}
 
 Paperclip.interpolates :filename do |attachment, style|
   return attachment.original_filename if style == :original

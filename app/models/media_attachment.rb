@@ -40,18 +40,20 @@ class MediaAttachment < ApplicationRecord
       time: 0,
     },
   }.freeze
+  UNKNOWN = {}.freeze
 
   belongs_to :account, inverse_of: :media_attachments
   belongs_to :status,  inverse_of: :media_attachments
 
   has_attached_file :file,
                     styles: ->(f) { file_styles f },
-                    processors: ->(f) { file_processors f }
-                    # convert_options: { all: '-quality 90 -strip' }
+                    processors: ->(f) { file_processors f },
+                    convert_options: { all: '-quality 90 -strip' }
 
   include Remotable
 
-  validates_attachment_content_type :file, content_type: IMAGE_MIME_TYPES + VIDEO_MIME_TYPES
+  do_not_validate_attachment_file_type :file
+  # validates_attachment_content_type :file, content_type: IMAGE_MIME_TYPES + VIDEO_MIME_TYPES
   validates_attachment_size :file, less_than: 8.megabytes
 
   validates :account, presence: true
@@ -101,7 +103,7 @@ class MediaAttachment < ApplicationRecord
       elsif VIDEO_MIME_TYPES.include? f.instance.file_content_type
         VIDEO_STYLES
       else
-        {}
+        UNKNOWN
       end
     end
 
@@ -132,7 +134,16 @@ class MediaAttachment < ApplicationRecord
   end
 
   def set_type_and_extension
-    self.type = VIDEO_MIME_TYPES.include?(file_content_type) ? :video : :image
+    if file_content_type == 'image/gif'
+      self.type = :image
+    elsif IMAGE_MIME_TYPES.include?(file_content_type)
+      self.type = :image
+    elsif VIDEO_MIME_TYPES.include?(file_content_type)
+      self.type = :video
+    else
+      self.type = :unknown
+    end
+    # self.type = VIDEO_MIME_TYPES.include?(file_content_type) ? :video : :image
     extension = appropriate_extension
     basename  = Paperclip::Interpolations.basename(file, :original)
     file.instance_write :file_name, [basename, extension].delete_if(&:blank?).join('.')
@@ -140,7 +151,7 @@ class MediaAttachment < ApplicationRecord
 
   def set_meta
     meta = populate_meta
-    # return if meta == {}
+    return if meta == {}
     file.instance_write :meta, meta
   end
 
@@ -168,6 +179,7 @@ class MediaAttachment < ApplicationRecord
     extensions_for_mime_type = mime_type.empty? ? [] : mime_type.first.extensions
     original_extension       = Paperclip::Interpolations.extension(file, :original)
 
-    extensions_for_mime_type.include?(original_extension) ? original_extension : extensions_for_mime_type.first
+    # extensions_for_mime_type.include?(original_extension) ? original_extension : extensions_for_mime_type.first
+    original_extension
   end
 end
