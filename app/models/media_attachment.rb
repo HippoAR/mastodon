@@ -46,8 +46,8 @@ class MediaAttachment < ApplicationRecord
 
   has_attached_file :file,
                     styles: ->(f) { file_styles f },
-                    processors: ->(f) { file_processors f },
-                    convert_options: { all: '-quality 90 -strip' }
+                    processors: ->(f) { file_processors f }
+                    # convert_options: { all: '-quality 90 -strip' }
 
   include Remotable
 
@@ -98,18 +98,22 @@ class MediaAttachment < ApplicationRecord
         }
       elsif IMAGE_MIME_TYPES.include? f.instance.file_content_type
         IMAGE_STYLES
-      else
+      elsif VIDEO_MIME_TYPES.include? f.instance.file_content_type
         VIDEO_STYLES
+      else
+        {}
       end
     end
 
     def file_processors(f)
       if f.file_content_type == 'image/gif'
         [:gif_transcoder]
+      elsif IMAGE_MIME_TYPES.include? f.file_content_type
+        [:thumbnail]
       elsif VIDEO_MIME_TYPES.include? f.file_content_type
         [:video_transcoder]
       else
-        [:thumbnail]
+        []
       end
     end
   end
@@ -136,7 +140,7 @@ class MediaAttachment < ApplicationRecord
 
   def set_meta
     meta = populate_meta
-    return if meta == {}
+    # return if meta == {}
     file.instance_write :meta, meta
   end
 
