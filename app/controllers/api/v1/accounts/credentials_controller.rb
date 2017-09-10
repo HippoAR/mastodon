@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Api::V1::Accounts::CredentialsController < Api::BaseController
+  protect_from_forgery with: :null_session
+
   before_action -> { doorkeeper_authorize! :write }, only: [:update]
   before_action :require_user!
 
