@@ -2,7 +2,8 @@
 
 Paperclip.options[:read_timeout] = 60
 Paperclip.options[:content_type_mappings] = {
-  dae: 'application/xml'
+  dae: 'application/xml',
+  scn: 'application/octet-stream',
 }
 
 Paperclip.interpolates :filename do |attachment, style|
