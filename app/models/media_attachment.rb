@@ -26,10 +26,25 @@ class MediaAttachment < ApplicationRecord
   enum type: [:image, :gifv, :video, :unknown]
 
   IMAGE_MIME_TYPES = ['image/jpeg', 'image/png', 'image/gif'].freeze
-  VIDEO_MIME_TYPES = ['video/webm', 'video/mp4'].freeze
+  VIDEO_MIME_TYPES = ['video/webm', 'video/mp4', 'video/quicktime'].freeze
 
   IMAGE_STYLES = { original: '1280x1280>', small: '400x400>' }.freeze
   VIDEO_STYLES = {
+    original: {
+      format: 'mp4',
+      convert_options: {
+        output: {
+          'movflags' => 'faststart',
+          'pix_fmt'  => 'yuv420p',
+          'vf'       => 'scale=\'trunc(iw/2)*2:trunc(ih/2)*2\'',
+          'vsync'    => 'cfr',
+          'b:v'      => '1300K',
+          'maxrate'  => '500K',
+          'bufsize'  => '1300K',
+          'crf'      => 18,
+        },
+      },
+    },
     small: {
       convert_options: {
         output: {
