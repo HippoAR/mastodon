@@ -34,8 +34,8 @@ class MediaAttachment < ApplicationRecord
       format: 'gif',
       convert_options: {
         output: {
-          framerate: 5,
-          vf: 'scale=\'min(400\, iw):min(400\, ih)\':force_original_aspect_ratio=decrease',
+          'c:v' => 'gif',
+          'framerate': 5,
         },
       },
     },
