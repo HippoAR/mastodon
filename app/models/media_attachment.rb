@@ -31,13 +31,13 @@ class MediaAttachment < ApplicationRecord
   IMAGE_STYLES = { original: '1280x1280>', small: '400x400>' }.freeze
   VIDEO_STYLES = {
     small: {
+      format: 'gif',
       convert_options: {
         output: {
+          framerate: 5,
           vf: 'scale=\'min(400\, iw):min(400\, ih)\':force_original_aspect_ratio=decrease',
         },
       },
-      format: 'png',
-      time: 0,
     },
   }.freeze
   UNKNOWN = {}.freeze
@@ -81,14 +81,7 @@ class MediaAttachment < ApplicationRecord
     def file_styles(f)
       if f.instance.file_content_type == 'image/gif'
         {
-          small: {
-            format: 'gif',
-            convert_options: {
-              output: {
-                'framerate' => 5,
-              },
-            },
-          },
+          small: IMAGE_STYLES[:small],
           original: {
             format: 'mp4',
             convert_options: {
