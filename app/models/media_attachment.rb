@@ -37,6 +37,7 @@ class MediaAttachment < ApplicationRecord
           'vframes' => 100,
           'c:v'     => 'gif',
           'vf'      => 'fps=10,scale=w=480:h=480:force_original_aspect_ratio=decrease:flags=lanczos',
+          'f'       => 'gif',
         },
       },
     },
