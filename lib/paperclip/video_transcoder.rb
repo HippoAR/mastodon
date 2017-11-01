@@ -8,7 +8,14 @@ module Paperclip
       meta = ::Av.cli.identify(@file.path)
       attachment.instance.type = MediaAttachment.types[:gifv] unless meta[:audio_encode]
 
-      Paperclip::Transcoder.make(file, options, attachment)
+      final_file = Paperclip::Transcoder.make(file, options, attachment)
+
+      if options[:style] == :original
+        attachment.instance.file_file_name    = 'preview.gif'
+        attachment.instance.file_content_type = 'image/gif'
+      end
+
+      final_file
     end
   end
 end
