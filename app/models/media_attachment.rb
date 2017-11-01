@@ -36,7 +36,7 @@ class MediaAttachment < ApplicationRecord
         output: {
           'vframes' => 100,
           'c:v'     => 'gif',
-          'vf'      => 'fps=10,scale=480:-1',
+          'vf'      => 'fps=10,scale=w=480:h=480:force_original_aspect_ratio=decrease:flags=lanczos',
         },
       },
     },
