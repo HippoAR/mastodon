@@ -34,9 +34,9 @@ class MediaAttachment < ApplicationRecord
       format: '',
       convert_options: {
         output: {
-          'vframes' => 100,
+          'vframes' => 20,
           'c:v'     => 'gif',
-          'vf'      => 'fps=10,scale=w=480:h=480:force_original_aspect_ratio=decrease:flags=lanczos',
+          'vf'      => 'fps=5,scale=w=480:h=480:force_original_aspect_ratio=decrease:flags=lanczos',
           'f'       => 'gif',
         },
       },
