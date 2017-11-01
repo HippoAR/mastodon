@@ -81,7 +81,14 @@ class MediaAttachment < ApplicationRecord
     def file_styles(f)
       if f.instance.file_content_type == 'image/gif'
         {
-          small: IMAGE_STYLES[:small],
+          small: {
+            format: 'gif',
+            convert_options: {
+              output: {
+                'framerate' => 5,
+              },
+            },
+          },
           original: {
             format: 'mp4',
             convert_options: {
