@@ -35,7 +35,6 @@ class MediaAttachment < ApplicationRecord
       convert_options: {
         output: {
           'c:v' => 'gif',
-          'framerate': 5,
         },
       },
     },
