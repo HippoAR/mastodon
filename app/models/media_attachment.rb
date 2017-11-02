@@ -31,7 +31,7 @@ class MediaAttachment < ApplicationRecord
   IMAGE_STYLES = { original: '1280x1280>', small: '400x400>' }.freeze
   VIDEO_STYLES = {
     small: {
-      format: '',
+      format: 'gif',
       convert_options: {
         output: {
           'vframes' => 20,
@@ -179,13 +179,7 @@ class MediaAttachment < ApplicationRecord
     mime_type = MIME::Types[file.content_type]
 
     extensions_for_mime_type = mime_type.empty? ? [] : mime_type.first.extensions
-    # original_extension       = Paperclip::Interpolations.extension(file, :original)
-
-    if :style_name == :small
-      'gif'
-    else
-      Paperclip::Interpolations.extension(file, :original)
-    end
+    original_extension       = Paperclip::Interpolations.extension(file, :original)
 
     # extensions_for_mime_type.include?(original_extension) ? original_extension : extensions_for_mime_type.first
   end
