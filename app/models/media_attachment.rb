@@ -182,7 +182,7 @@ class MediaAttachment < ApplicationRecord
     # original_extension       = Paperclip::Interpolations.extension(file, :original)
 
     if :style_name == :small
-      Paperclip::Interpolations.extension(file, :small)
+      'gif'
     else
       Paperclip::Interpolations.extension(file, :original)
     end
