@@ -31,7 +31,7 @@ class MediaAttachment < ApplicationRecord
   IMAGE_STYLES = { original: '1280x1280>', small: '400x400>' }.freeze
   VIDEO_STYLES = {
     small: {
-      format: 'gif',
+      format: '',
       convert_options: {
         output: {
           'vframes' => 20,
