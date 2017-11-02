@@ -11,7 +11,8 @@ class REST::MediaAttachmentSerializer < ActiveModel::Serializer
   end
 
   def preview_url
-    full_asset_url(object.file.url(:small))
+    url = full_asset_url(object.file.url(:small))
+    url.sub! '.mp4', '.png'
   end
 
   def text_url
