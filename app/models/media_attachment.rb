@@ -41,6 +41,9 @@ class MediaAttachment < ApplicationRecord
         },
       },
     },
+    original: {
+      format: 'mp4',
+    },
   }.freeze
   UNKNOWN = {}.freeze
 
