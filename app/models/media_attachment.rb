@@ -41,9 +41,6 @@ class MediaAttachment < ApplicationRecord
         },
       },
     },
-    original: {
-      format: 'mp4',
-    },
   }.freeze
   UNKNOWN = {}.freeze
 
@@ -184,6 +181,6 @@ class MediaAttachment < ApplicationRecord
     extensions_for_mime_type = mime_type.empty? ? [] : mime_type.first.extensions
     original_extension       = Paperclip::Interpolations.extension(file, :original)
 
-    extensions_for_mime_type.include?(original_extension) ? original_extension : extensions_for_mime_type.first
+    # extensions_for_mime_type.include?(original_extension) ? original_extension : extensions_for_mime_type.first
   end
 end
