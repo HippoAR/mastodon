@@ -16,7 +16,7 @@ class REST::MediaAttachmentSerializer < ActiveModel::Serializer
       url
       # url.sub '.mp4', '.gif'
     else
-      url.sub '.mp4', '.png'
+      sub_url = url.sub('.mp4', '.png').sub('.m4v', '.png')
     end
   end
 
