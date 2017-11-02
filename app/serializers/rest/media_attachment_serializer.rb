@@ -14,9 +14,9 @@ class REST::MediaAttachmentSerializer < ActiveModel::Serializer
     url = full_asset_url(object.file.url(:small))
     if object.id > 990
       url
-      # url.sub! '.mp4', '.gif'
+      # url.sub '.mp4', '.gif'
     else
-      url.sub! '.mp4', '.png'
+      url.sub '.mp4', '.png'
     end
   end
 
